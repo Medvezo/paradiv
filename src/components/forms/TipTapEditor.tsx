@@ -2,6 +2,7 @@
 
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import TipTapToolbar from "./TipTapToolbar";
 
 type TipTapEditorProps = {
 	description: string;
@@ -25,7 +26,8 @@ const TipTapEditor = ({ description, onChange }: TipTapEditorProps) => {
 
 	return (
 		<div className="flex flex-col justify-start items-center min-h-[250px]">
-			<EditorContent editor={editor} />;
+			{editor && <TipTapToolbar editor={editor} />}
+			<EditorContent editor={editor} />
 		</div>
 	);
 };
