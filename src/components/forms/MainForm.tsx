@@ -13,6 +13,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import TipTapEditor from "./TipTapEditor";
 
 export default function MainForm() {
 	const formSchema = z.object({
@@ -42,6 +43,19 @@ export default function MainForm() {
 							<Input placeholder="shadcn" {...field} />
 						</FormControl>
 						<FormDescription>Add title</FormDescription>
+						<FormMessage />
+					</FormItem>
+				)}
+			/>
+			<FormField
+				control={form.control}
+				name="title"
+				render={({ field }) => (
+					<FormItem>
+						<FormLabel>Text editor</FormLabel>
+						<FormControl>
+							<TipTapEditor description={field.value} onChange={field.onChange} />
+						</FormControl>
 						<FormMessage />
 					</FormItem>
 				)}
