@@ -5,7 +5,7 @@ import { Bold, Italic, List, ListOrdered, Heading2 } from "lucide-react";
 import { type Editor } from "@tiptap/react";
 
 type TipTapToolbarProps = {
-	editor: Editor;
+	editor: Editor | null;
 };
 
 export default function TipTapToolbar({ editor }: TipTapToolbarProps) {

@@ -54,7 +54,10 @@ export default function MainForm() {
 					<FormItem>
 						<FormLabel>Text editor</FormLabel>
 						<FormControl>
-							<TipTapEditor description={field.value} onChange={field.onChange} />
+							<TipTapEditor
+								description={field.value}
+								onChange={field.onChange}
+							/>
 						</FormControl>
 						<FormMessage />
 					</FormItem>

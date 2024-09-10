@@ -19,14 +19,15 @@ const TipTapEditor = ({ description, onChange }: TipTapEditorProps) => {
 		},
 		editorProps: {
 			attributes: {
-				class: "prose prose-sm sm:prose lg:prose-lg xl:prose-2xl",
+				class:
+					"border border-input bg-transparent rounded-md p-2 min-w-[500px] w-full min-h-[250px] focus:outline-none",
 			},
 		},
 	});
 
 	return (
-		<div className="flex flex-col justify-start items-center min-h-[250px]">
-			{editor && <TipTapToolbar editor={editor} />}
+		<div className="flex flex-col justify-start items-center gap-4">
+			<TipTapToolbar editor={editor} />
 			<EditorContent editor={editor} />
 		</div>
 	);
