@@ -15,13 +15,28 @@ import { Input } from "../ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import TipTapEditor from "./TipTapEditor";
 import { Button } from "../ui/button";
+import { formatTitleToRoute } from "@/lib/utils";
+import { useQuery } from "convex/react";
+import { api } from "@/../convex/_generated/api";
 
 export default function MainForm() {
+	const chats = useQuery(api.chats.get);
+
 	const formSchema = z.object({
 		title: z
 			.string()
 			.min(5, { message: "Title is not long enough" })
-			.max(100, { message: "Title is too long" }),
+			.max(100, { message: "Title is too long" })
+			.refine(
+				(title) => {
+					const formattedRoute = formatTitleToRoute(title);
+					return !chats?.some(
+						(chat) => formatTitleToRoute(chat.title) === formattedRoute
+					);
+				},
+				{ message: "A chat with this title already exists" }
+			),
+
 		content: z.string(), // Add validation rules as needed
 	});
 
@@ -32,6 +47,7 @@ export default function MainForm() {
 			content: "",
 		},
 		resolver: zodResolver(formSchema),
+		context: { chats },
 	});
 
 	const onSubmit = (data: z.infer<typeof formSchema>) => {
@@ -42,7 +58,7 @@ export default function MainForm() {
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(onSubmit)}
-				className="flex flex-col justify-start items-stretch gap-10 w-full max-w-3xl mx-auto"
+				className="flex flex-col justify-start items-stretch gap-10 w-full max-w-3xl mx-auto mt-10"
 			>
 				<FormField
 					control={form.control}
@@ -51,7 +67,7 @@ export default function MainForm() {
 						<FormItem className="w-full">
 							<FormLabel>What is your paragraph about?</FormLabel>
 							<FormControl>
-								<Input placeholder="About something" {...field} />
+								<Input required placeholder="About something" {...field} />
 							</FormControl>
 							<FormDescription>Add a title to your paragraph</FormDescription>
 							<FormMessage />
@@ -74,7 +90,7 @@ export default function MainForm() {
 						</FormItem>
 					)}
 				/>
-				<Button type="submit">Submit</Button>
+				<Button type="submit" disabled={!form.formState.isValid}>Submit</Button>
 			</form>
 		</Form>
 	);
