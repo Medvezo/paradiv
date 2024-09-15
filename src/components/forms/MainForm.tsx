@@ -27,7 +27,7 @@ export default function MainForm() {
 			.string()
 			.min(5, { message: "Title is not long enough" })
 			.max(100, { message: "Title is too long" })
-			.refine(
+			.refine(		//TODO: Rewrite this refine part
 				(title) => {
 					const formattedRoute = formatTitleToRoute(title);
 					return !chats?.some(
