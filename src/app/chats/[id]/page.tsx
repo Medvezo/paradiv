@@ -3,10 +3,10 @@ import { useQuery } from "convex/react";
 import { api } from "@/../convex/_generated/api";
 import { useEffect } from "react";
 
-export default function ChatPage({ params }: { params: { title: string } }) {
-	const { title } = params;
+export default function ChatPage({ params }: { params: { id: string } }) {
+	const { id } = params;
 
-	const chat = useQuery(api.chats.getById, { _id: title });
+	const chat = useQuery(api.chats.getById, { _id: id });
 
 	useEffect(() => {
 		console.log(chat);
