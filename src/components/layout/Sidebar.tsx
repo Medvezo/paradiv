@@ -17,7 +17,7 @@ export default function Sidebar({}) {
 						<li key={chat.id}>
 							<Link
 								className="block bg-gray-700 hover:bg-gray-600 rounded-md px-3 py-2 w-full transition-colors"
-								href={`/chat/${formatTitleToRoute(chat.id)}`}
+								href={`/chats/${formatTitleToRoute(chat.id)}`}
 							>
 								{chat.title}
 							</Link>
