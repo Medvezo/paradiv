@@ -2,7 +2,9 @@
 
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import CharacterCount from "@tiptap/extension-character-count";
 import TipTapToolbar from "./TipTapToolbar";
+import { useState, useEffect } from "react";
 
 type TipTapEditorProps = {
 	description: string;
@@ -10,12 +12,20 @@ type TipTapEditorProps = {
 };
 
 const TipTapEditor = ({ description, onChange }: TipTapEditorProps) => {
+	const [charCount, setCharCount] = useState(0);
+
 	const editor = useEditor({
-		extensions: [StarterKit],
+		extensions: [
+			StarterKit,
+			CharacterCount.configure({
+				limit: 5000,
+			}),
+		],
 		content: description,
 		onUpdate: ({ editor }) => {
-			onChange(editor.getHTML());
-			console.log(editor.getHTML());
+			const html = editor.getHTML();
+			onChange(html);
+			setCharCount(editor.storage.characterCount.characters());
 		},
 		editorProps: {
 			attributes: {
@@ -25,10 +35,19 @@ const TipTapEditor = ({ description, onChange }: TipTapEditorProps) => {
 		},
 	});
 
+	useEffect(() => {
+		if (editor) {
+			setCharCount(editor.storage.characterCount.characters());
+		}
+	}, [editor]);
+
 	return (
 		<div className="flex flex-col justify-start items-stretch gap-4 w-full max-w-3xl mx-auto">
 			<TipTapToolbar editor={editor} />
 			<EditorContent editor={editor} />
+			<div className="text-sm text-gray-500 text-right">
+				{charCount}/2000 characters
+			</div>
 		</div>
 	);
 };

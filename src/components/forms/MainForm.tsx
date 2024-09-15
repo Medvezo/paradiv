@@ -37,7 +37,10 @@ export default function MainForm() {
 				{ message: "A chat with this title already exists" }
 			),
 
-		content: z.string(), // Add validation rules as needed
+		content: z.string()
+		.min(100, { message: "Text is too short" })
+		.max(2000, { message: "Text is too long" })
+		,
 	});
 
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -76,7 +79,7 @@ export default function MainForm() {
 				/>
 				<FormField
 					control={form.control}
-					name="content" // Changed from "title" to "content"
+					name="content"
 					render={({ field }) => (
 						<FormItem className="w-full">
 							<FormLabel>Text editor</FormLabel>
