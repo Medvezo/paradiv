@@ -5,7 +5,7 @@ import { api } from "@/../convex/_generated/api";
 import Link from "next/link";
 
 export default function Sidebar({}) {
-	const chats = useQuery(api.chats.get);
+	const chats = useQuery(api.chats.getAllChats);
 
 	return (
 		<aside className="flex gap-4 flex-col w-64 bg-gray-900 h-screen p-4 ">

@@ -20,7 +20,7 @@ import { useQuery } from "convex/react";
 import { api } from "@/../convex/_generated/api";
 
 export default function MainForm() {
-	const chats = useQuery(api.chats.get);
+	const chats = useQuery(api.chats.getAllChats);
 
 	const formSchema = z.object({
 		title: z
