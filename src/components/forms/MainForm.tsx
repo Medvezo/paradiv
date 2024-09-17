@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import TipTapEditor from "./TipTapEditor";
 import { Button } from "../ui/button";
 import { formatTitleToRoute } from "@/lib/utils";
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/../convex/_generated/api";
 
 export default function MainForm() {
@@ -27,7 +27,8 @@ export default function MainForm() {
 			.string()
 			.min(5, { message: "Title is not long enough" })
 			.max(100, { message: "Title is too long" })
-			.refine(		//TODO: Rewrite this refine part
+			.refine(
+				//TODO: Rewrite this refine part
 				(title) => {
 					const formattedRoute = formatTitleToRoute(title);
 					return !chats?.some(
@@ -37,10 +38,10 @@ export default function MainForm() {
 				{ message: "A chat with this title already exists" }
 			),
 
-		content: z.string()
-		.min(100, { message: "Text is too short" })
-		.max(2000, { message: "Text is too long" })
-		,
+		content: z
+			.string()
+			.min(100, { message: "Text is too short" })
+			.max(2000, { message: "Text is too long" }),
 	});
 
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -53,8 +54,21 @@ export default function MainForm() {
 		context: { chats },
 	});
 
+	const createChat = useMutation(api.chats.createChat);
+
 	const onSubmit = (data: z.infer<typeof formSchema>) => {
-		console.log(data);
+		// console.log(data);
+		try {
+			const response = createChat({ title: data.title, content: data.content });
+			console.log("Chat created with response: ", response);
+
+			// Reset form or redirect user after successful submission
+			form.reset();
+
+			//TODO: You might want to redirect the user or show a success message here
+		} catch (error) {
+			console.error("Error on Submitting Main Form: ", error);
+		}
 	};
 
 	return (
@@ -93,7 +107,9 @@ export default function MainForm() {
 						</FormItem>
 					)}
 				/>
-				<Button type="submit" disabled={!form.formState.isValid}>Submit</Button>
+				<Button type="submit" disabled={!form.formState.isValid}>
+					Submit
+				</Button>
 			</form>
 		</Form>
 	);

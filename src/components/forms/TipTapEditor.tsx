@@ -23,7 +23,7 @@ const TipTapEditor = ({ description, onChange }: TipTapEditorProps) => {
 		],
 		content: description,
 		onUpdate: ({ editor }) => {
-			const html = editor.getHTML();
+			const html = editor.getText();
 			onChange(html);
 			setCharCount(editor.storage.characterCount.characters());
 		},
