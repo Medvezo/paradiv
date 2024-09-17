@@ -18,8 +18,10 @@ import { Button } from "../ui/button";
 import { formatTitleToRoute } from "@/lib/utils";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/../convex/_generated/api";
+import { useToast } from "@/hooks/use-toast";
 
 export default function MainForm() {
+	const { toast } = useToast();
 	const chats = useQuery(api.chats.getAllChats);
 
 	const formSchema = z.object({
@@ -57,17 +59,26 @@ export default function MainForm() {
 	const createChat = useMutation(api.chats.createChat);
 
 	const onSubmit = (data: z.infer<typeof formSchema>) => {
-		// console.log(data);
 		try {
 			const response = createChat({ title: data.title, content: data.content });
 			console.log("Chat created with response: ", response);
+			toast({
+				title: "Chat created successfully",
+				description: `Your chat "${data.title}" has been created.`,
+				variant: "success"
+			});
 
-			// Reset form or redirect user after successful submission
+			// Reset form after successful submission
 			form.reset();
 
-			//TODO: You might want to redirect the user or show a success message here
+			//TODO: You might want to redirect the user here
 		} catch (error) {
 			console.error("Error on Submitting Main Form: ", error);
+			toast({
+				title: "Error",
+				description: "Failed to create chat. Please try again.",
+				variant: "destructive",
+			});
 		}
 	};
 

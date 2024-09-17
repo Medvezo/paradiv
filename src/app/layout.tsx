@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ConvexClientProvider } from "./providers";
 import Sidebar from "@/components/layout/Sidebar";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = localFont({
 	src: "./fonts/GeistVF.woff",
@@ -28,11 +29,14 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased flex`}
+				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
 				<ConvexClientProvider>
-					<Sidebar />
-					{children}
+					<div className="flex h-screen overflow-hidden">
+						<Sidebar />
+						<main className="flex-1 overflow-y-auto">{children}</main>
+					</div>
+					<Toaster />
 				</ConvexClientProvider>
 			</body>
 		</html>
