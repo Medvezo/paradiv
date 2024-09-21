@@ -50,3 +50,15 @@ export const updateChat = mutation({
 	},
 
 });
+
+export const deleteChat = mutation({
+	args: { _id: v.string() },
+	handler: async (ctx, args) => {
+		const chat = await getById(ctx, { _id: args._id });
+		if (!chat) {
+			throw new ConvexError("Chat not found");
+		}
+		await ctx.db.delete(args._id as Id<"chats">);
+		return true;
+	},
+});
