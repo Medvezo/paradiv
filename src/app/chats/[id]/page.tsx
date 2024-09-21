@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/../convex/_generated/api";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaArrowLeft, FaEdit, FaTrash } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 
 export default function ChatPage({ params }: { params: { id: string } }) {
@@ -29,12 +29,20 @@ export default function ChatPage({ params }: { params: { id: string } }) {
 
 	const handleDelete = () => {
 		deleteChat({ _id: id });
-		router.push("/chats");
+		router.push("/");
 	};
 
 	return (
 		<div className="h-screen w-full flex flex-col justify-start flex-1 ">
-			<header className="flex sticky top-0 justify-center items-center gap-20 w-full bg-zinc-700 ">
+			<header className="flex sticky top-0 justify-between items-center w-full backdrop-blur-3xl px-4 border-b border-white/10 py-1">
+				<Button
+					variant="ghost"
+					className="hover:bg-white/10"
+					onClick={() => router.back()}
+				>
+					<FaArrowLeft className="text-white" />
+				</Button>
+
 				<h2 className="text-xl font-bold text-amber-500">{chat?.title}</h2>
 
 				<div className="flex gap-2">
