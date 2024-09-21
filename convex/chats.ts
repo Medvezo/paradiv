@@ -1,5 +1,6 @@
+import { Id } from "./_generated/dataModel";
 import { query, mutation } from "./_generated/server";
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 
 export const getAllChats = query({
 	args: {},
@@ -28,4 +29,24 @@ export const createChat = mutation({
 		});
 		return newChatId;
 	},
+});
+
+export const updateChat = mutation({
+	args: {
+		_id: v.string(),
+		title: v.optional(v.string()),
+		content: v.optional(v.string()),
+	},
+	handler: async (ctx, args) => {
+		const chat = await getById(ctx, { _id: args._id });
+		if (!chat) {
+			throw new ConvexError("Chat not found");
+		}
+		const updatedChat = await ctx.db.patch(args._id as Id<"chats">, {
+			...(args.title && { title: args.title }),
+			...(args.content && { content: args.content }),
+		});
+		return updatedChat;
+	},
+
 });
