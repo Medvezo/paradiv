@@ -34,7 +34,7 @@ export default function RootLayout({
 				<ConvexClientProvider>
 					<div className="flex h-screen overflow-hidden">
 						<Sidebar />
-						<main className="flex-1 overflow-y-auto">{children}</main>
+						<main className="flex-1 overflow-y-auto bg-gray-800">{children}</main>
 					</div>
 					<Toaster />
 				</ConvexClientProvider>
