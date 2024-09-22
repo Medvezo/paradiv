@@ -1,15 +1,11 @@
 "use client";
-import { useMutation, useQuery } from "convex/react";
+import { useQuery } from "convex/react";
 import { api } from "@/../convex/_generated/api";
 import { useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { FaArrowLeft, FaEdit, FaTrash } from "react-icons/fa";
-import { useRouter } from "next/navigation";
+import PageHeader from "@/components/layout/PageHeader";
 
 export default function ChatPage({ params }: { params: { id: string } }) {
 	const { id } = params;
-
-	const router = useRouter();
 
 	const chat = useQuery(api.chats.getById, { _id: id });
 
@@ -17,51 +13,9 @@ export default function ChatPage({ params }: { params: { id: string } }) {
 		console.log(chat);
 	}, [chat]);
 
-	// UPDATE CHAT
-	const updateChat = useMutation(api.chats.updateChat);
-
-	const handleUpdate = () => {
-		updateChat({ _id: id, title: "New Title" });
-	};
-
-	// DELETE CHAT
-	const deleteChat = useMutation(api.chats.deleteChat);
-
-	const handleDelete = () => {
-		deleteChat({ _id: id });
-		router.push("/");
-	};
-
 	return (
 		<div className="h-screen w-full flex flex-col justify-start flex-1 ">
-			<header className="flex sticky top-0 justify-between items-center w-full backdrop-blur-3xl px-4 border-b border-white/10 py-1">
-				<Button
-					variant="ghost"
-					className="hover:bg-white/10"
-					onClick={() => router.back()}
-				>
-					<FaArrowLeft className="text-white" />
-				</Button>
-
-				<h2 className="text-xl font-bold text-amber-500">{chat?.title}</h2>
-
-				<div className="flex gap-2">
-					<Button
-						variant={"ghost"}
-						className="hover:bg-amber-600/90"
-						onClick={handleUpdate}
-					>
-						<FaEdit className="text-destructive-foreground" />
-					</Button>
-					<Button
-						variant={"ghost"}
-						className="hover:bg-destructive/90"
-						onClick={handleDelete}
-					>
-						<FaTrash className="text-destructive-foreground" />
-					</Button>
-				</div>
-			</header>
+			<PageHeader id={id} />
 			<main className="flex-1 flex flex-col items-center justify-start min-h-[calc(100vh-10rem)] py-10 max-w-lg mx-auto">
 				{chat?.content}
 			</main>
