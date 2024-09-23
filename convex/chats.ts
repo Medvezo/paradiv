@@ -36,6 +36,7 @@ export const updateChat = mutation({
 		_id: v.string(),
 		title: v.optional(v.string()),
 		content: v.optional(v.string()),
+		response: v.optional(v.string()),
 	},
 	handler: async (ctx, args) => {
 		const chat = await getById(ctx, { _id: args._id });
@@ -45,6 +46,7 @@ export const updateChat = mutation({
 		const updatedChat = await ctx.db.patch(args._id as Id<"chats">, {
 			...(args.title && { title: args.title }),
 			...(args.content && { content: args.content }),
+			...(args.response && { response: args.response }),
 		});
 		return updatedChat;
 	},
