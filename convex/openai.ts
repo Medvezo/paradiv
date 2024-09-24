@@ -2,7 +2,7 @@
 
 import { action } from "./_generated/server";
 import { v } from "convex/values";
-import OpenAI from "openai";
+import OpenAI from "../node_modules/openai";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -19,11 +19,11 @@ export const divideIntoParagraphs = action({
         messages: [
           {
             role: "system",
-            content: "You are a helpful assistant that divides text into well-structured paragraphs.",
+            content: "Divide the given text into well-structured paragraphs. Do not add, remove, or modify any content except for paragraph breaks and minor grammar corrections. Do not include any additional commentary or explanations.",
           },
           {
             role: "user",
-            content: `Please divide the following text into paragraphs, maintaining the original content but improving its structure:\n\n${content}`,
+            content: `${content}`,
           },
         ],
         max_tokens: 1000,

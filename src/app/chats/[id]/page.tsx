@@ -30,6 +30,7 @@ export default function ChatPage({ params }: { params: { id: string } }) {
 		setIsProcessing(true);
 		try {
 			const result = await divideIntoParagraphs();
+			
 			if (result) {
 				setDividedContent(result);
 				// Add the divided content as a new response
