@@ -19,7 +19,7 @@ export const divideIntoParagraphs = action({
         messages: [
           {
             role: "system",
-            content: "Divide the given text into well-structured paragraphs. Do not add, remove, or modify any content except for paragraph breaks and minor grammar corrections. Do not include any additional commentary or explanations.",
+            content: "Divide the given text into well-structured paragraphs. If the content is not well-structured, rearrange sentences to form coherent paragraphs. Do not add or remove content, but you may reorder existing sentences to improve paragraph structure. Make minor grammar corrections if necessary. Do not include any additional commentary or explanations.",
           },
           {
             role: "user",
