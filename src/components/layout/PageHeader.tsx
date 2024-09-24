@@ -19,6 +19,7 @@ import {
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
 
 interface PageHeaderProps {
 	id: string;
@@ -31,6 +32,9 @@ export default function PageHeader({ id }: PageHeaderProps) {
 	const [isEditOpen, setIsEditOpen] = useState(false);
 	const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
+    const { toast } = useToast();
+
+
 	//* Updating title whenever title is loaded from DB
 	useEffect(() => {
 		setNewTitle(chat?.title || "");
@@ -42,6 +46,11 @@ export default function PageHeader({ id }: PageHeaderProps) {
 	const handleUpdate = () => {
 		updateChat({ _id: id, title: newTitle });
 		setIsEditOpen(false);
+        toast({
+            title: "Chat updated",
+            description: "The chat title has been successfully updated.",
+            variant: "success",
+          });
 	};
 
 	// DELETE CHAT
@@ -51,6 +60,11 @@ export default function PageHeader({ id }: PageHeaderProps) {
 		deleteChat({ _id: id });
 		setIsDeleteOpen(false);
 		router.push("/");
+        toast({
+            title: "Chat deleted",
+            description: "The chat has been successfully deleted.",
+            variant: "destructive",
+          });
 	};
 
 	return (
@@ -89,6 +103,7 @@ export default function PageHeader({ id }: PageHeaderProps) {
 									value={newTitle}
 									onChange={(e) => setNewTitle(e.target.value)}
 									className="col-span-3"
+                                    autoFocus
 								/>
 							</div>
 						</div>
