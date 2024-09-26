@@ -43,7 +43,7 @@ export default function Sidebar({}) {
 			</main>
 			<footer className="flex flex-col items-center w-full">
 				<Unauthenticated>
-					<SignInButton />
+					<SignInButton mode="modal" />
 				</Unauthenticated>
 				<Authenticated>
 					<div className="flex justify-center items-center gap-5 w-full" >

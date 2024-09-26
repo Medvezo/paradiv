@@ -4,6 +4,7 @@ import { api } from "@/../convex/_generated/api";
 import { useCallback, useState } from "react";
 import PageHeader from "@/components/layout/PageHeader";
 import { Button } from "@/components/ui/button";
+import { useTypewriter } from '@/hooks/useTypewriter';
 
 export default function ChatPage({ params }: { params: { id: string } }) {
 	const { id } = params;
@@ -46,6 +47,8 @@ export default function ChatPage({ params }: { params: { id: string } }) {
 		}
 	};
 
+	const typedDividedContent = useTypewriter(dividedContent || '');
+
 	return (
 		<div className="h-screen w-full flex flex-col justify-start flex-1">
 			<PageHeader id={id} />
@@ -57,7 +60,7 @@ export default function ChatPage({ params }: { params: { id: string } }) {
 				{dividedContent && (
 					<div className="w-full mt-6 bg-gray-700 p-4 rounded-md shadow-md">
 						<h3 className="text-lg font-semibold text-amber-300 mb-2">AI Response (Divided Paragraphs):</h3>
-						<div className="text-white whitespace-pre-line text-lg leading-relaxed">{dividedContent}</div>
+						<div className="text-white whitespace-pre-line text-lg leading-relaxed">{typedDividedContent}</div>
 					</div>
 				)}
 				<Button
