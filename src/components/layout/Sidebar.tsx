@@ -33,12 +33,13 @@ export default function Sidebar({}) {
 					) : (
 						<li className="text-gray-400 italic">No chats available</li>
 					)}
-					<Link
+					{(chats && chats.length > 0) && <Link
 						href="/chats"
 						className="mt-auto text-white font-bold py-2 px-4 underline hover:no-underline underline-offset-4 transition-all ease-in-out duration-300"
 					>
-						View All Chats
-					</Link>
+							View All Chats
+						</Link>
+					}
 				</ul>
 			</main>
 			<footer className="flex flex-col items-center w-full">
