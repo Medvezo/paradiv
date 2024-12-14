@@ -6,5 +6,6 @@ export default defineSchema({
     content: v.string(),
     response: v.string(),
     title: v.string(),
+    userId: v.string(),
   }),
 });
