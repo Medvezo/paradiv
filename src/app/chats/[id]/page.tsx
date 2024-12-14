@@ -1,12 +1,10 @@
 "use client";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/../convex/_generated/api";
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState } from "react";
 import PageHeader from "@/components/layout/PageHeader";
 import { Button } from "@/components/ui/button";
 import { useTypewriter } from '@/hooks/useTypewriter';
-import { useUser } from "@clerk/clerk-react";
-import { useRouter } from "next/navigation";
 
 export default function ChatPage({ params }: { params: { id: string } }) {
 	const { id } = params;
@@ -50,19 +48,6 @@ export default function ChatPage({ params }: { params: { id: string } }) {
 	};
 
 	const typedDividedContent = useTypewriter(dividedContent || '');
-
-	const { isSignedIn } = useUser();
-	const router = useRouter();
-
-	useEffect(() => {
-		if (!isSignedIn) {
-			router.push('/');
-		}
-	}, [isSignedIn, router]);
-
-	if (!isSignedIn) {
-		return null;
-	}
 
 	return (
 		<div className="h-screen w-full flex flex-col justify-start flex-1">
