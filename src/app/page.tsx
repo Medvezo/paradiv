@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import MainForm from "@/components/forms/MainForm";
+
+export const metadata: Metadata = {
+	title: "Create New Chat",
+	description: "Start a new text analysis and let AI help structure your paragraphs",
+};
 
 export default function Home() {
 	return (
