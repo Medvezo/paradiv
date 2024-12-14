@@ -20,10 +20,12 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/../convex/_generated/api";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { SignInButton, useUser } from "@clerk/clerk-react";
 
 export default function MainForm() {
 	const { toast } = useToast();
 	const chats = useQuery(api.chats.getAllChats);
+	const { isSignedIn } = useUser();
 
 	const router = useRouter();
 
@@ -62,6 +64,15 @@ export default function MainForm() {
 	const createChat = useMutation(api.chats.createChat);
 
 	const onSubmit = async (data: z.infer<typeof formSchema>) => {
+		if (!isSignedIn) {
+			toast({
+				title: "Authentication required",
+				description: "Please sign in to create a chat",
+				variant: "destructive"
+			});
+			return;
+		}
+
 		try {
 			const chatId = await createChat({ title: data.title, content: data.content });
 			console.log("Chat created with ID: ", chatId);
@@ -122,9 +133,18 @@ export default function MainForm() {
 						</FormItem>
 					)}
 				/>
-				<Button type="submit" disabled={!form.formState.isValid}>
-					Submit
-				</Button>
+				{isSignedIn ? (
+					<Button type="submit" disabled={!form.formState.isValid}>
+						Submit
+					</Button>
+				) : (
+					<SignInButton mode="modal">
+						<Button type="button" className="w-full">
+							Submit
+						</Button>
+					</SignInButton>
+				)}
+
 			</form>
 		</Form>
 	);
